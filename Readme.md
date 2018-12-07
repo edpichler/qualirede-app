@@ -1,6 +1,6 @@
 # Observações sobre o projeto
 
-Procurei atender os requisitos da uma forma prática, para ser possível entregar antes do prazo. Deixei o design do sistema simples, na solução atual, se o banco de dados for alterado, iria impactar as interfaces REST, então precisaria separar o design dessas classes, caso esta fosse uma aplicação para outro fim.
+Procurei atender os requisitos da uma forma prática, para ser possível entregar antes do prazo. Deixei o design do sistema simples.
 Respeitei a assinatura dos métodos REST definidos. Se não tivessem sido especificados, eu iria definir usando padrão [Hateoas](https://spring.io/understanding/HATEOAS).
 
 # Para fazer build
@@ -13,6 +13,11 @@ Respeitei a assinatura dos métodos REST definidos. Se não tivessem sido especi
  1. Fazer o comando `gradle bootRun`.
  2. Em uma IDE: A classe Main é `com.qualirede.QualiredeApplication`.
  3. Imagem Docker: Publiquei uma imagem docker em `edpichler/qualirede-java-app:latest`. Para executar esta imagem, fazer `docker run -p 8080:8080 edpichler/qualirede-java-app:latest`
+
+# Extras desenvolvidos
+ - Aplicação está hospedada no Cloud: http://qualirede-ingress.qualirede.68.183.134.88.xip.io/
+ - Testes unitários estão feitos, dentro do projeto.
+ - Documentação dos métodos REST, fiz apenas o javadoc, pois não tinha certeza se era pra ser uma documentação interativa. Mas poderia ter usado o https://swagger.io/ para fazer uma documentação interativa.
 
 ---
 
