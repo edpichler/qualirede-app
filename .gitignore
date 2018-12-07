@@ -1,0 +1,16 @@
+/.DS_Store
+bin/*
+/.classpath
+/.project
+.gradle/*
+build/*
+target/*
+**/.DS_Store
+**/.settings
+**/.iml
+.idea/**
+*.iml
+*.class
+*.kotlin_module
+out/**
+*.iml

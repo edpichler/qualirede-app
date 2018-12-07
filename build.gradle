@@ -1,0 +1,79 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		jcenter()
+        maven { url "http://repo.spring.io/plugins-release" }
+        maven { url "https://plugins.gradle.org/m2/" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath('org.sglahn:gradle-dockerfile-plugin:0.4')
+    }
+}
+
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.14'
+}
+
+lombok {
+    version = '1.18.2'
+    sha256 = ""
+}
+
+apply plugin: 'java'
+apply plugin: 'dockerfile'
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.qualirede'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'com.h2database:h2:1.4.197'
+
+    compile('org.springframework.boot:spring-boot-starter:2.1.0.RELEASE')
+	compile('org.springframework.boot:spring-boot-starter-web:2.1.0.RELEASE')
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:2.1.0.RELEASE")
+	compile('org.springframework.boot:spring-boot-starter-data-rest:2.1.0.RELEASE')
+	compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5')
+
+	compile('org.springframework.boot:spring-boot-starter-security:2.1.0.RELEASE')
+
+    testCompile('org.springframework.boot:spring-boot-starter-aop:2.1.0.RELEASE')
+    testCompile('org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE')
+    testCompile('org.mockito:mockito-core:2.7.22')
+    testCompile("org.assertj:assertj-core:3.11.1")
+}
+
+task copyToLib(type: Copy) {
+	into "$buildDir/libs/lib"
+	from configurations.runtime
+}
+
+build.dependsOn(copyToLib)
+
+def mainClassName = 'com.qualirede.qualiredeApplication'
+
+jar {
+	manifest {
+		attributes 'Main-Class': mainClassName,
+				'Class-Path': configurations.runtime.files.collect { "lib/$it.name" }.join(' ')
+		// Keep jar clean:
+		exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
+
+	}
+}
+
+docker {
+    dockerFile = 'Dockerfile'
+    imageName = 'edpichler/qualirede-java-app'
+}
