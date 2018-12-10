@@ -15,9 +15,11 @@ Respeitei a assinatura dos métodos REST definidos. Se não tivessem sido especi
  3. Imagem Docker: Publiquei uma imagem docker em `edpichler/qualirede-java-app:latest`. Para executar esta imagem, fazer `docker run -p 8080:8080 edpichler/qualirede-java-app:latest`
 
 # Extras desenvolvidos
+
  - Aplicação está hospedada no Cloud: http://qualirede-ingress.qualirede.68.183.134.88.xip.io/
- - Testes unitários estão feitos, dentro do projeto.
+ - Testes unitários foram feitos, apenas alguns, nos Resources REST e nos repositórios.
  - Documentação dos métodos REST, fiz apenas o javadoc, pois não tinha certeza se era pra ser uma documentação interativa. Mas poderia ter usado o https://swagger.io/ para fazer uma documentação interativa.
+ - Segurança com JWT. Deixei apenas o método /rest/v1/beneficiario/doenca precisando do token para autenticação.
 
 ---
 
