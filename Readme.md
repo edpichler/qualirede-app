@@ -1,7 +1,7 @@
 # Observações sobre o projeto
 
-Procurei atender os requisitos da uma forma prática, para ser possível entregar antes do prazo. Deixei o design do sistema simples.
-Respeitei a assinatura dos métodos REST definidos. Se não tivessem sido especificados, eu iria definir usando padrão [Hateoas](https://spring.io/understanding/HATEOAS).
+Procurei atender os requisitos da uma forma prática, para ser possível entregar o projeto com alguns extras no prazo. Por isso, deixei o design do sistema simples.
+Respeitei a assinatura dos métodos REST definidos. Se não tivessem sido especificados, eu iria definir eles usando padrão [Hateoas](https://spring.io/understanding/HATEOAS) que o Spring até facilita para desenvolver.
 
 # Para fazer build
  - Precisa do Gradle instalado, comando `gradle build` para executar os testes e gerar uma build.
