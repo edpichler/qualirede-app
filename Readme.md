@@ -19,7 +19,7 @@ Respeitei a assinatura dos métodos REST definidos. Se não tivessem sido especi
  - Aplicação está hospedada no Cloud: http://qualirede-ingress.qualirede.68.183.134.88.xip.io/
  - Testes unitários foram feitos, apenas alguns, nos Resources REST e nos repositórios.
  - Documentação dos métodos REST, fiz apenas o javadoc, pois não tinha certeza se era pra ser uma documentação interativa. Mas poderia ter usado o https://swagger.io/ para fazer uma documentação interativa.
- - Segurança com JWT: Deixei apenas o método /rest/v1/beneficiario/doenca precisando do token para autenticação. Para fazer login, observar como foi está sendo feito no teste unitário `BeneficiarioControllerTest.testBeneficiarioVincularDoenca()`
+ - Segurança com JWT: Deixei apenas o método `/rest/v1/beneficiario/doenca` precisando do token para autenticação. Para fazer login, observar como foi está sendo feito no teste unitário `BeneficiarioControllerTest.testBeneficiarioVincularDoenca()`
  - Além dos extras requisitados, fiz o aplicativo ser empacotado em imagem Docker.
 
 ---
