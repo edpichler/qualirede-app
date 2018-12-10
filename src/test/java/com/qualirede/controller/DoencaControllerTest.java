@@ -29,7 +29,7 @@ public class DoencaControllerTest extends AbstractResourcesTest {
         final String descricao = doenca.getDescricao();
         //create
         final ResponseEntity<Long> response = template.exchange(API_DOENCA, HttpMethod.POST,
-                getHttpEntity(doenca, null, null), Long.class);
+                getHttpEntity(doenca), Long.class);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody().longValue()).isGreaterThan(0);
 

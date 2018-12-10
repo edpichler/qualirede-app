@@ -3,6 +3,7 @@ package com.qualirede.controller;
 import com.qualirede.controller.json.BeneficiarioDoencaDTO;
 import com.qualirede.repositories.jpa.entities.Beneficiario;
 import com.qualirede.repositories.jpa.entities.Doenca;
+import com.qualirede.security.AccountCredentials;
 import com.qualirede.utils.TestUtils;
 import org.junit.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -35,7 +36,7 @@ public class BeneficiarioControllerTest extends AbstractResourcesTest {
 
         //create
         final ResponseEntity<Long> response = template.exchange(API_BENEFICIARIO, HttpMethod.POST,
-                getHttpEntity(bene, null, null), Long.class);
+                getHttpEntity(bene), Long.class);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody().longValue()).isGreaterThan(0);
 
@@ -58,7 +59,7 @@ public class BeneficiarioControllerTest extends AbstractResourcesTest {
 
         //create beneficiario
         final ResponseEntity<Long> response = template.exchange(API_BENEFICIARIO, HttpMethod.POST,
-                getHttpEntity(bene, null, null), Long.class);
+                getHttpEntity(bene), Long.class);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         long idBeneficiario = response.getBody().longValue();
 
@@ -70,7 +71,7 @@ public class BeneficiarioControllerTest extends AbstractResourcesTest {
             final Doenca doenca  = TestUtils.createDoenca();
             String nomeDoenca = doenca.getDescricao();
             final ResponseEntity<Long> responseDoenca = template.exchange(API_DOENCA, HttpMethod.POST,
-                    getHttpEntity(doenca, null, null), Long.class);
+                    getHttpEntity(doenca), Long.class);
             assertThat(responseDoenca.getStatusCode().is2xxSuccessful()).isTrue();
 
             //vincula doenca
@@ -79,7 +80,7 @@ public class BeneficiarioControllerTest extends AbstractResourcesTest {
             dto.setIdDoenca(responseDoenca.getBody().longValue());
 
             final ResponseEntity<String> responseVincular = template.exchange(API_BENEFICIARIO_VINCULAR_DOENCA, HttpMethod.POST,
-                    getHttpEntity(dto, null, null), String.class);
+                    getHttpEntityWithJwt(dto, getJwtToken()), String.class);
             assertThat(responseVincular.getStatusCode().is2xxSuccessful()).isTrue();
             assertThat(responseVincular.getBody()).isEqualTo("Beneficiário " + nomeBeneficiario +
                     " vinculado à doença " + nomeDoenca +
@@ -95,6 +96,16 @@ public class BeneficiarioControllerTest extends AbstractResourcesTest {
         final ResponseEntity<List<Doenca>> listaDoencas = template.exchange(path.toUriString(), HttpMethod.GET, null, typeReference);
         assertThat(listaDoencas.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(listaDoencas.getBody().size()).isEqualTo(qtde);
+    }
+
+    private String getJwtToken() {
+        final AccountCredentials accountCredentials = new AccountCredentials();
+        accountCredentials.setUsername("admin");
+        accountCredentials.setPassword("admin");
+        final ResponseEntity<String> tokenRes = template.exchange("/login", HttpMethod.POST, getHttpEntity(accountCredentials), String.class);
+        assertThat(tokenRes.getStatusCode().is2xxSuccessful()).isTrue();
+        final String authorization = tokenRes.getHeaders().get("Authorization").get(0);
+        return authorization;
     }
 
     @Override

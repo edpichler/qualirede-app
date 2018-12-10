@@ -32,50 +32,12 @@ public abstract class AbstractResourcesTest {
     protected static final String API_USERS_SEARCH_NOME = "/api/users/search/nome";
 
     protected MockMvc mockMvc;
-//
-//    @Autowired
-//    private UserRepository repoUser;
-//
-//    private User adminUser;
-//    private User basicUser;
-
-//    @Before
-//    public void criaUsuarios(){
-//        //create an user with profile ADMIN.
-//        adminUser = createRandomUser();
-//        adminUser.setPerfil(Perfil.ADMIN);
-//        adminUser.setSenha("adminPassword");
-//        repoUser.save(adminUser);
-//
-//        //create an user with profile USER.
-//        basicUser = createRandomUser();
-//        basicUser.setPerfil(Perfil.USER);
-//        basicUser.setSenha("basicUserPassword");
-//        repoUser.save(basicUser);
-//    }
-//
-//    @After
-//    public void removeUsuarios() {
-//        repoUser.delete(basicUser);
-//        repoUser.delete(adminUser);
-//    }
 
     @Before
     public void setupMock() {
         mockMvc = MockMvcBuilders.standaloneSetup(getControllersToTest()).build();
     }
 
-//    /**
-//     * Creates an User with Random details (does not persists on database).
-//     * @return
-//     */
-//    protected static User createRandomUser() {
-//        User user = new User();
-//        final String email = TestUtils.randomEmail();
-//        user.setEmail(email);
-//        user.setNome("Eduardo Qualirede Test " + System.currentTimeMillis());
-//        return user;
-//    }
 
     /**
      * Return the list of controllers that are being tested.
@@ -86,45 +48,27 @@ public abstract class AbstractResourcesTest {
     @Autowired
     protected TestRestTemplate template;
 
-    private HttpHeaders createAuthHeaders(String username, String password){
-        return new HttpHeaders() {{
-            String auth = username + ":" + password;
-            byte[] encodedAuth = Base64.encodeBase64(
-                    auth.getBytes(Charset.forName("US-ASCII")) );
-            String authHeader = "Basic " + new String( encodedAuth );
-            set( "Authorization", authHeader );
-        }};
-    }
-
     /**
      * Get HTTP Entity.
      * @param body
      * @return
      */
-    protected HttpEntity<Object> getHttpEntity(Object body, String username, String password) {
+    protected HttpEntity<Object> getHttpEntityWithJwt(Object body, String jwtToken) {
         HttpHeaders headers = new HttpHeaders();
-        if (username != null && password != null) {
-            headers.addAll( createAuthHeaders(username, password));
+        if (jwtToken != null) {
+            headers.add( "Authorization", jwtToken);
         }
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(body, headers);
     }
 
-//    /**
-//     * Get HTTP Entity for an User.
-//     * @param body
-//     * @return
-//     */
-//    protected HttpEntity<Object> getHttpEntityUser(Object body) {
-//        return getHttpEntity(body, basicUser.getEmail(), basicUser.getSenha());
-//    }
-//
-//    /**
-//     * Get HTTP Entity for an Admin user.
-//     * @param body
-//     * @return
-//     */
-//    protected HttpEntity<Object> getHttpEntityAdmin(Object body) {
-//        return getHttpEntity(body, adminUser.getEmail(), adminUser.getSenha());
-//    }
+        /**
+     * Get HTTP Entity.
+     * @param body
+     * @return
+     */
+    protected HttpEntity<Object> getHttpEntity(Object body) {
+        return new HttpEntity<>(body);
+    }
+
 }
